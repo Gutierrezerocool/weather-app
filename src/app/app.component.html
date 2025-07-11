@@ -1,13 +1,134 @@
-<h1>Weather Forecast</h1>
+<!-- Add CDN links for Google Fonts and Font Awesome -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="error">Error: {{ error.message }}</div>
+<div class="weather-container">
+  <h1 class="title"><i class="fa-solid fa-cloud-sun"></i> Weather Forecast</h1>
 
-<div *ngIf="weatherData">
-  <h2>Hourly Temperature (°C)</h2>
-  <ul>
-    <li *ngFor="let t of weatherData.hourly.temperature_2m; let i = index">
-      {{ weatherData.hourly.time[i] }} — {{ t }}°C
-    </li>
-  </ul>
+  <div *ngIf="loading" class="status loading">
+    <span class="spinner"></span> Loading...
+  </div>
+  <div *ngIf="error" class="status error">
+    <span><i class="fa-solid fa-triangle-exclamation"></i> Error: {{ error.message }}</span>
+  </div>
+
+  <div *ngIf="weatherData" class="card">
+    <h2 class="subtitle">
+      <i class="fa-solid fa-clock"></i> Hourly Temperature <span class="unit">(°C)</span>
+    </h2>
+    <ul class="hourly-list">
+      <li *ngFor="let t of weatherData.hourly.temperature_2m; let i = index" class="hourly-item">
+        <span class="time"><i class="fa-regular fa-clock"></i> {{ weatherData.hourly.time[i] }}</span>
+        <span class="temp"><i class="fa-solid fa-temperature-half"></i> {{ t }}°C</span>
+      </li>
+    </ul>
+  </div>
 </div>
+
+<style>
+.weather-container {
+  max-width: 440px;
+  margin: 2.5rem auto;
+  padding: 2.2rem 2rem;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
+  border-radius: 1.7rem;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.10);
+  font-family: 'Inter', 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.3rem;
+  margin-bottom: 1.3rem;
+  color: #2563eb;
+  letter-spacing: 1px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+}
+
+.status {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+}
+.status.loading .spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 3px solid #60a5fa;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.status.error {
+  color: #dc2626;
+}
+
+.card {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 16px rgba(37,99,235,0.10);
+  padding: 1.7rem 1.2rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #0ea5e9;
+  margin-bottom: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: 600;
+}
+.unit {
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.hourly-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.hourly-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8em 0.5em;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1.07rem;
+  transition: background 0.18s;
+  border-radius: 0.5em;
+}
+.hourly-item:last-child {
+  border-bottom: none;
+}
+.hourly-item:hover {
+  background: #f1f5f9;
+}
+.time {
+  color: #475569;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.temp {
+  color: #2563eb;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+</style>
